@@ -36,7 +36,7 @@ namespace BethanysPieShop.Models
 
         public IEnumerable<Pie> SearchPies(string searchQuery)
         {
-            throw new NotImplementedException();
+            return _context.Pies.Where(p=>p.Name.Contains(searchQuery));
         }
     }
 }
