@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews()
                 .AddJsonOptions(options=>{
                     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                 });
+
 
 builder.Services.AddDbContext<AppDbContext>(options=>{
     options.UseSqlServer(builder.Configuration.GetConnectionString("BethanysPieShop"));
@@ -39,13 +39,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
 
+app.UseAuthentication();
+
 app.UseRouting();
 
 app.UseAuthorization();
-
-// app.MapControllerRoute(
-//     name: "default",
-//     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapDefaultControllerRoute();
 app.MapRazorPages();

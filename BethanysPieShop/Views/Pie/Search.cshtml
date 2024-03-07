@@ -1,0 +1,50 @@
+<br />
+<br />
+<br />
+<br />
+  Enter your search query:
+<input id="txtPieName" type="text" />
+<button id="searchButton">Search</button>
+<br />
+<br />
+<table id="tblPies" cellpadding="0" cellspacing="0">
+    <tr>
+        <th style="width: 120px"></th>
+        <th style="width: 120px">Name</th>
+        <th style="width: 90px">Price</th>
+    </tr>
+    <tbody id="tbody"></tbody>
+</table>
+
+
+<script type="text/javascript">
+    let searchBtn = document.getElementById("searchButton");
+    let searchQuery = document.getElementById("txtPieName");
+    let tbody = document.getElementById("tbody");
+    let tr = document.createElement("tr");
+    let td = document.createElement("td");
+
+    searchBtn.addEventListener("click",()=>{
+        fetch("/api/Search",{
+            body: JSON.stringify(searchQuery.value),
+            method:"POST",
+            headers: {
+                "Content-Type": "application/json",
+         },
+            
+        }).then(e=>e.json())
+          .then(pies=>{
+           $.each(pies, function (i, pie) {
+                $("tbody").append($("<tr>"));
+                    appendElement = $("tbody tr").last();
+                    appendElement.append($("<td>").html('<img src=' + pie.imageThumbnailUrl + '>'));
+                    appendElement.append($("<td>").html('<a href="/pie/details/' + pie.pieId + '">' + pie.name + '</a>'));
+                    appendElement.append($("<td>").html(pie.price));
+                });
+                searchQuery.value = '';
+          })
+          .catch(err=>console.log(err))
+    })
+
+
+</script>
